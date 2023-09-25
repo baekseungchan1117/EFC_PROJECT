@@ -1,6 +1,7 @@
 const express = require('express');
 const postRoutes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
+const checkToken = require('./middleware/checkToken');
 const cors = require('cors')
 const app = express();
 const PORT = 8000;
@@ -12,6 +13,9 @@ app.use(express.json());
 app.get('/', (req, res)=>{
     res.send('Hello, World')
 })
+
+// 미들웨어로 토큰 검사 적용
+app.use('/api', checkToken);
 
 // CRUD 라우팅
 app.use('/api', postRoutes);

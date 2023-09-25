@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
@@ -7,6 +8,8 @@ function Login() {
         userid: '',
         password: ''
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({
@@ -38,6 +41,7 @@ function Login() {
             // 여기서 토큰을 로컬 스토리지에 저장할 필요가 없습니다.
             alert('로그인 성공');
             // 추가적인 로직 (예: 메인 페이지로 리다이렉트)
+            navigate('/')
         })
         .catch(error => {
             console.error("There was an error!", error);
