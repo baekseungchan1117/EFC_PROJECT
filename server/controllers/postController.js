@@ -46,7 +46,9 @@ exports.getPost = (req, res) => {
 
 //업데이트
 exports.updatePost = (req, res) => {
-    const { id, title, content } = req.body;
+    const id = req.params.id;
+    const { title, content } = req.body;
+
     const UPDATE_POST_QUERY = "UPDATE posts SET title = ?, content = ? WHERE id = ?";
     db.query(UPDATE_POST_QUERY, [title, content, id], (error, results) => {
         if (error) {
@@ -61,9 +63,11 @@ exports.updatePost = (req, res) => {
 
 
 
+
 //삭제
 exports.deletePost = (req, res) => {
-    const { id } = req.body;
+    const id = req.params.id;
+    console.log(req.params.id);
     const DELETE_POST_QUERY = "DELETE FROM posts WHERE id = ?";
     db.query(DELETE_POST_QUERY, [id], (error, results) => {
         if (error) {

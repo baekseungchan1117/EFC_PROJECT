@@ -14,14 +14,15 @@ app.get('/', (req, res)=>{
     res.send('Hello, World')
 })
 
-// 미들웨어로 토큰 검사 적용
-app.use('/api', checkToken);
-
 // CRUD 라우팅
 app.use('/api', postRoutes);
 
 // 인증 관련 라우팅
 app.use('/auth', authRoutes); 
+
+
+// 미들웨어로 토큰 검사 적용
+app.use('/api', checkToken);
 
 
 app.listen(PORT, ()=>{
