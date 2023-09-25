@@ -41,16 +41,24 @@ exports.login = (req, res) => {
         }
         
         // JWT 토큰 생성
-        const accessToken = jwt.sign({ id: results[0].id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-        const refreshToken = jwt.sign({ id: results[0].id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+        const accessToken = jwt.sign({ id: results[0].id, userid: results[0].userid }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+        const refreshToken = jwt.sign({ id: results[0].id,  userid: results[0].userid  }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
         // HTTP-only 쿠키에 토큰 저장
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, path: '/token', maxAge: 7 * 24 * 60 * 60 * 1000 });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, path: '/token', maxAge: 7 * 24 * 60 * 60 * 1000,  });
         res.status(200).send({
             message: 'Logged in successfully',
-            accessToken
-            // refreshToken ; refreshToken // 로컬 스토리지나 세션에 저장 경우 사용
+            accessToken,
+            user: {
+                userid: results[0].userid,
+                nickname: results[0].nickname
+                // 필요한 다른 정보들을 여기에 추가
+            }
+            // refreshToken ; refreshToken // 로컬 스토리지나 세션에 저장 경우 사용           
         });
+
+        // res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 }); // 1시간
+        // res.status(200).send({ message: 'Logged in successfully' });
     });
 };
 
